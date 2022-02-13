@@ -21,6 +21,9 @@
       :items-per-page="25"
       :loading="isLoading"
     >
+      <template v-slot:[`item.name.official`]="{ item }">
+        <Details :countryName="item.name.official" :countryData="item" />
+      </template>
       <template v-slot:[`item.flags.png`]="{ item }">
         <v-img
           :src="item.flags.png"
@@ -34,7 +37,15 @@
 </template>
 
 <script>
+import Details from "./Details";
+
 export default {
+  name: "SearchResults",
+
+  components: {
+    Details,
+  },
+
   data() {
     return {
       isLoading: true,
@@ -42,11 +53,10 @@ export default {
       headers: [
         {
           text: "國旗",
-          align: "start",
           sortable: false,
           value: "flags.png",
         },
-        { text: "國家名稱", value: "name.official" },
+        { text: "國家名稱", value: "name.official", align: "center" },
         { text: "2位國家代碼", value: "cca2" },
         { text: "3位國家代碼", value: "cca3" },
         { text: "母語名稱", value: "name.nativeNames", width: "25%" },
